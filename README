@@ -1,1 +1,19 @@
-Future home of Lucid Prism, a general purpose Solr search user interface framework with value added plugins to work with LucidWorks Enterprise for saved searches / alerts, authentication, and click log tracking.
+Lucid Prism - a user interface framework designed specifically for Apache Solr, with extended features such as LucidWorks Enterprise click logging, authorization, and saves searches/alerts.
+
+-----
+Prerequisites:
+
+  * Launch LucidWorks Enterprise (currently hardcoded for LWE's collection1 core and /lucid request handler)
+  
+  * JRuby (using JRuby 1.5.6 for development), with Sinatra gem installed (jruby -S gem install sinatra)
+
+Launching Prism:
+   This is the very beginning of this project, with only a simple Solr response pass-thru action.
+   
+   Launch: jruby -rubygems -S prism.rb
+   
+   Browse: http://localhost:4567/search - all request parameters are simply passed through to LWE's /lucid request handler.
+   
+   
+   
+   
