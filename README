@@ -20,7 +20,8 @@ Launching Prism:
 Known issues:
   * Parameter arrays don't work as they do with Solr
     /search?fq=one&fq=two only passes through one of the fq values.
-    fq[] is the way to get arrays, so this works to pass through fq's to Solr: /search?fq[]=one&fq[]=two
+    fq[] is the way to get arrays, so this works to pass through fq's to Solr: 
+        /search?fq[]=one&fq[]=two
     We'll fix this lame one right away!
     
 Features Roadmap:
@@ -40,34 +41,53 @@ Features Roadmap:
 
 Configuration:
 
-  - TBD exactly, but the idea is to allow end users to simply configure Solr and add simple UI templates.
-  - Convention over configuration?  Sort of, but less magic and more "just build the search UI intuitively".
+  - TBD exactly, but the idea is to allow end users to simply configure Solr
+    and add simple UI templates.
+  - Convention over configuration?  Sort of, but less magic and
+    more "just build the search UI intuitively".
 
 FAQ
    Why?
-     Because Solr search UI still isn't trivial enough to build for the masses.  We need something lean, clean, extensible, with all the modern day sparkly things built in.
+     Because Solr search UI still isn't trivial enough to build for the
+     masses.  We need something lean, clean, extensible, with all the modern
+     day sparkly things built in.
      
    Why is it called Prism?
      Solr light shines through, pretty colors come out.
      
    Why JRuby?
      JRuby makes the Prism world a better place in a few ways -
-       * Literally "run anywhere" without additional environmental impact; no need to install Ruby into your operating system.
-       * Secret sauce: Velocity templating.  Opininated?  Sure.  But for good reason*.  However, Prism itself will use any Ruby templating technology you'd like.
-       * Advanced users will likely enjoy being able to integrate Java code for enterprisey things.
+       * Literally "run anywhere" without additional environmental impact;
+         no need to install Ruby into your operating system.
+       * Secret sauce: Velocity templating.  Opininated?  Sure.
+         But for good reason*.  However, Prism itself will use any Ruby 
+         templating technology you'd like.
+       * Advanced users will likely enjoy being able to integrate Java code 
+         for enterprisey things.
 
   How about non-(J)Ruby deployment?
-     Deploying into another Ruby runtime shouldn't be a problem.  For the moment, the development is proceeding with only JRuby and Velocity,
-     but Prism is just a Sinatra Ruby app and can use ERb or other templating technologies.
+     Deploying into another Ruby runtime shouldn't be a problem.  For the 
+     moment, the development is proceeding with only JRuby and Velocity,
+     but Prism is just a Sinatra Ruby app and can use ERb or other templating 
+     technologies.
      
-     If you want an ERb-based search UI for LucidWorks Enterprise, there is one built directly into it.
+     If you want an ERb-based search UI for LucidWorks Enterprise, 
+     there is one built directly into it.
      
-     For other Ruby-based Solr search UI, consider starting with Blacklight or borrowing bits from Flare.
+     For other Ruby-based Solr search UI, consider starting with Blacklight
+     or borrowing bits from Flare.
      
-     For non-Ruby Solr search UI, there are many projects in a variety of technologies floating out there.  Search around.
+     For non-Ruby Solr search UI, there are many projects in a variety of 
+     technologies floating out there.  Search around.
      
-     For non-Solr search UI: Solr is a mighty fine search engine that you should strongly consider, if only for this snazzy Prism search UI :)
+     For non-Solr search UI: Solr is a mighty fine search engine that you 
+     should strongly consider, if only for this snazzy Prism search UI :)
      
-  Why Velocity?
-     It's leaner, cleaner, and sports a number of powerful features that Prism will leverage including dynamically controlled template loaders and macros.
-     A basic comparison of Velocity versus ERb: $var versus <%=@var%>.  Less typing, less junk, easier to document, no Ruby or Java knowledge necessary.
+  * Why Velocity?
+     It's leaner, cleaner, and sports a number of powerful features that Prism 
+     will leverage including dynamically controlled template loaders and 
+     macros.  A basic comparison of Velocity versus ERb: 
+     $var versus <%=@var%>.  Less typing, less junk, easier to document, no 
+     Ruby or Java knowledge necessary.  We'll likely bring in Velocity through
+     the Velaro (https://github.com/erikhatcher/velaro) project, and fleshing 
+     out the JRuby/Velocity integration there.
