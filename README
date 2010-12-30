@@ -10,12 +10,14 @@ Prerequisites:
   * JRuby (using JRuby 1.5.6 for development), with Sinatra gem installed (jruby -S gem install sinatra)
 
 Launching Prism:
-  This is the very beginning of this project, with only a simple Solr response pass-thru action.
+  This is the very beginning of this project, with two actions:
+    * /solr, a complete Solr pass-through
+    * /lwe, renders the response (from LWE's /lucid handler,
+      hardcoded to role=>DEFAULT currently) through the views/browse.vel Velocity template
 
   Launch: jruby -rubygems -S prism.rb
 
-  Browse: http://localhost:4567/search
-    - all request parameters are simply passed through to LWE's default /lucid request handler at http://localhost:8888/solr/collection1
+  Browse: http://localhost:4567/lwe
 
 Known issues:
   * Parameter arrays don't work as they do with Solr

@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Lucid Prism - search results for $request.q</title>
+  </head>
+  
+  <body>
+    Found $response.response.docs.length docs in ${response.responseHeader.QTime}ms
+
+    #foreach($doc in $response.response.docs)
+      <div>
+        $doc.id
+      </div>
+    #end
+
+  </body>
+</html>
