@@ -8,14 +8,14 @@ require 'lwe'
 
 module Lucid  
   module Prism
-    class Base < Sinatra::Base
+    class Main < Sinatra::Base
       set :public, './public'
       set :views, './views'
       
       use Lucid::Prism::LWE # TODO: inject this dynamically somehow rather than hardcoding - via Rack middleware config?
 
       # Solr direct pass-thru; response code, headers including content-type, and Solr response body all included
-      # TODO: perhaps extract this out to its own Sinatra::Base subclass to make it optional via config
+      # TODO: this needs to be made optional, and perhaps only default it on when in development mode
       get '/solr' do
         solr_response = solr('collection1', nil, params)
 
@@ -26,5 +26,5 @@ module Lucid
 end
 
 # TODO: launch Prism outside of here
-Lucid::Prism::Base.run!
+Lucid::Prism::Main.run!
 
