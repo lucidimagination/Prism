@@ -9,7 +9,10 @@ require 'lwe'
 module Lucid  
   module Prism
     class Base < Sinatra::Base
-      use Lucid::Prism::LWE # TODO: inject this dynamically somehow rather than hardcoding - maybe via Rack middleware config?
+      set :public, './public'
+      set :views, './views'
+      
+      use Lucid::Prism::LWE # TODO: inject this dynamically somehow rather than hardcoding - via Rack middleware config?
 
       # Solr direct pass-thru; response code, headers including content-type, and Solr response body all included
       # TODO: perhaps extract this out to its own Sinatra::Base subclass to make it optional via config

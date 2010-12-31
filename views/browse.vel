@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Lucid Prism - search results for $request.q</title>
+    <link rel="stylesheet" type="text/css" href="/main.css"/>
   </head>
   
   <body>
