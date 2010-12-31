@@ -16,8 +16,8 @@ module Lucid
 
       # Solr direct pass-thru; response code, headers including content-type, and Solr response body all included
       # TODO: this needs to be made optional, and perhaps only default it on when in development mode
-      get '/solr/?:core?' do
-        solr_response = solr(params[:core], nil, params)
+      get '/solr/?:core?/?:handler?' do
+        solr_response = solr(params[:core], params[:handler] ? "/#{params[:handler]}" : nil, params)
 
         [solr_response.code.to_i, solr_response.to_hash, solr_response.body]
       end
