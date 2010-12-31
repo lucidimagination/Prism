@@ -1,10 +1,11 @@
 <html>
   <head>
     <title>Lucid Prism - search results for <%=params[:q]%></title>
+    <link rel="stylesheet" type="text/css" href="/main.css"/>
   </head>
   
   <body>
-    Found <%=response['response']['docs'].length%> docs in <%=response['responseHeader']['QTime']%>ms
+    Found <%=response['response']['numFound']%> docs in <%=response['responseHeader']['QTime']%>ms
 
     <% response['response']['docs'].each do |doc| %>
       <div>
