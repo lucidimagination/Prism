@@ -11,7 +11,7 @@ Prerequisites:
   * JRuby (using JRuby 1.5.6 for development), with Sinatra gem installed (jruby -S gem install sinatra)
 
 Launching Prism:
-  Launch: jruby -rubygems -S prism.rb
+  Launch: jruby -rubygems -Ilib lib/prism.rb
 
   Browse: http://localhost:4567/lwe
 
