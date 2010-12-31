@@ -5,7 +5,7 @@
 # pass nil for handler to use the standard /select with no qt set.
 # TODO: maybe pass full Solr base URL instead of just core name?
 def solr(core, handler, params={})
-  url = URI.parse("http://localhost:8888/solr/#{core}") # TODO: parameterize Solr URL and handle nil core
+  url = URI.parse("http://localhost:8888/solr#{core ? '/' + core : ''}") # TODO: parameterize Solr URL
   connection = Net::HTTP.new(url.host, url.port)
   connection.use_ssl = true if url.scheme == "https"
   
