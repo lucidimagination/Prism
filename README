@@ -1,20 +1,16 @@
 Lucid Prism - a user interface framework designed specifically for Apache Solr.
 
 Current capabilities:
-  * Direct Solr pass-through to the default LucidWorks Enterprise /lucid handler.
+  * Direct Solr pass-through /solr action
+  * LucidWorks Enterprise /lwe action, hardcoded using role => DEFAULT, to LWE's /lucid handler
   
 Prerequisites:
 
-  * Launch LucidWorks Enterprise (currently hardcoded for LWE's collection1 core and /lucid request handler)
+  * Launch LucidWorks Enterprise
 
   * JRuby (using JRuby 1.5.6 for development), with Sinatra gem installed (jruby -S gem install sinatra)
 
 Launching Prism:
-  This is the very beginning of this project, with two actions:
-    * /solr, a complete Solr pass-through
-    * /lwe, renders the response (from LWE's /lucid handler,
-      hardcoded to role=>DEFAULT currently) through the views/browse.vel Velocity template
-
   Launch: jruby -rubygems -S prism.rb
 
   Browse: http://localhost:4567/lwe
@@ -62,9 +58,9 @@ FAQ
        * Literally "run anywhere" without additional environmental impact;
          no need to install Ruby into your operating system.
        * Secret sauce: Velocity templating.  Opininated?  Sure.
-         But for good reason*.  However, Prism itself will use any Ruby 
+         But for good reason*.  However, Prism itself, via Sinatra, will use any Ruby 
          templating technology you'd like.
-       * Advanced users will likely enjoy being able to integrate Java code 
+       * Advanced users will likely enjoy being able to integrate Java libraries 
          for enterprisey things.
 
   How about non-(J)Ruby deployment?
@@ -74,7 +70,7 @@ FAQ
      technologies.
      
      If you want an ERb-based search UI for LucidWorks Enterprise, 
-     there is one built directly into it.
+     there is one built directly into LWE already.
      
      For other Ruby-based Solr search UI, consider starting with Blacklight
      or borrowing bits from Flare.

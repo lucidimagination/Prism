@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Lucid Prism - search results for <%=params[:q]%></title>
+  </head>
+  
+  <body>
+    Found <%=response['response']['docs'].length%> docs in <%=response['responseHeader']['QTime']%>ms
+
+    <% response['response']['docs'].each do |doc| %>
+      <div>
+        <%=doc['id']%>
+      </div>
+    <% end %>
+
+  </body>
+</html>
