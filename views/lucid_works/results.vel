@@ -1,4 +1,4 @@
-$solr.url $solr.params
+<!-- $solr.url $solr.params -->
 
 <div class="results">
     $solr.response.numFound documents found
