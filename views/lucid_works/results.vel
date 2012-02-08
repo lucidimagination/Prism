@@ -1,0 +1,13 @@
+$solr.url $solr.params
+
+<div class="results">
+    $solr.response.numFound documents found
+
+    <ul>
+    #foreach($doc in $solr.response.docs)
+
+        <li>$doc.get('id')</li>
+
+    #end
+    </ul>
+</div>

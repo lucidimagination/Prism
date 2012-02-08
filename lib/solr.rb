@@ -1,16 +1,24 @@
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-
-#   Generic Solr access code, perhaps split this off to Lucid::Solr as a separate project
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-
+require 'net/http'
+require 'net/https'
+require 'cgi'
 
-# pass nil for handler to use the standard /select with no qt set.
-# TODO: maybe pass full Solr base URL instead of just core name?
-def solr(core, handler, params={})
-  url = URI.parse("http://localhost:8888/solr#{core ? '/' + core : ''}") # TODO: parameterize Solr URL
+def solr(url, handler, params={})
+  url = URI.parse(url)
   connection = Net::HTTP.new(url.host, url.port)
   connection.use_ssl = true if url.scheme == "https"
   
   connection.get(url.path + '/select?' + hash_to_query_string(params.merge(:qt => handler)))
 end
+
+def solr_cores(url)
+  # TODO:remove duplication from above... via RSolr
+  url = URI.parse(url)
+  connection = Net::HTTP.new(url.host, url.port)
+  connection.use_ssl = true if url.scheme == "https"
+
+  connection.get(url.path + '/admin/cores?wt=ruby')
+end
+
 
 def hash_to_query_string(hash)
   hash.delete_if{|k,v| v==nil}.collect {|key,value|

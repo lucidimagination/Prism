@@ -5,7 +5,8 @@
 if RUBY_PLATFORM == "java"
   include Java
 
-  require "./lib/velocity-1.6.4-dep.jar"
+  # TODO: upgrade Velocity, analyze what new features it provides
+  require "./lib/velocity-1.7-dep.jar"
 
   java_import 'org.apache.velocity.Template'
   java_import 'org.apache.velocity.VelocityContext'
@@ -15,24 +16,35 @@ else
   raise "Velaro requires JRuby"
 end # if java
 
-# TODO: consider using options with :locals => {...} as second parameter instead
-def velaro(template_name, parameters)
-  # TODO: handle layouts
+# options:
+#   :locals - go into Velocity context
+#   :velocity - control VelocityEngine properties
+def velaro(template_name, options={})
   # TODO: how do we, or do we, handle helper methods in Velocity templates?
   engine = VelocityEngine.new
   
-  # TODO: allow engine properties to be controlled per request, such as load path
-  engine.setProperty(VelocityEngine::FILE_RESOURCE_LOADER_PATH, "./views")
-  # TODO: create resource loaders for classpath and request params
-  engine.setProperty(VelocityEngine::RESOURCE_LOADER, "file")
+  options[:velocity].each do |k,v|
+    engine.setProperty(k.to_s,v.to_s)  # TODO: could v be an array?  if so, maybe #join(',') it
+  end
     
   context = VelocityContext.new
-  parameters.each do |k,v|
-    context.put(k, v)
-  end
+  options[:locals].each do |k,v|
+    context.put(k.to_s, v)
+  end if options[:locals]
 
   template = engine.getTemplate("#{template_name}.vel")
   writer = StringWriter.new
   template.merge(context, writer)
-  return writer.getBuffer.to_s
+  output = writer.getBuffer.to_s
+  
+  if options[:layout]
+    # TODO: maybe pull out a #render method that can be reused here and just above?
+    template = engine.getTemplate("#{options[:layout]}.vel")
+    context.put('content', output)
+    writer = StringWriter.new
+    template.merge(context,writer)
+    output = writer.getBuffer.to_s
+  end
+  
+  return output
 end

@@ -35,6 +35,7 @@ Features Roadmap:
     - Facet pie charts
     - Query overlap Venn diagrams
     - sparklines (if we must, for the Tuftee's among you)
+  * mobile interface - jQTouch?  PhoneGap?
     
 
 Configuration:

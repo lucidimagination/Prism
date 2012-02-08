@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Juxtapose: $core.name</title>
+  </head>
+
+  <script type="text/javascript" src="/jquery-1.4.3.min.js"></script>
+
+  <script type="text/javascript">
+      function updateResults(tab) {
+          req = '/prism/${core.name}?template=results&'+$('#form-'+tab).serialize();
+          $('#tab-'+tab+' .results').load(req);
+      }
+
+      $(document).ready(function() {
+          updateResults('one');
+          updateResults('two');
+      });
+  </script>
+
+  <body>
+    <h1>Juxtapose:$core.name</h1>
+
+    #foreach($tab in ['one','two'])
+      <div id="tab-$tab">
+        <h2>$tab</h2>
+
+        <form id="form-$tab" onsubmit="javascript:updateResults('$tab'); return false;">
+            #foreach($param in $solr_params.keys())
+              $param: <input type="text" name="$param" value="${solr_params.get($param)}" onchange="javascript:updateResults('$tab');"/>
+            #end
+
+            <input type="submit"/>
+        </form>
+
+        <div class="results">results</div>
+      </div>
+    #end
+
+    <hr/>
+    <!-- TODO: render these core details somehow elegantly -->
+    <ul>
+    #foreach($key in $core.keys())
+        <li>$key:${core.get($key)}</li>
+    #end
+    </ul>
+  </body>
+</html>
+

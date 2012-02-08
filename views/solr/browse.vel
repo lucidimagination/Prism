@@ -1,0 +1,27 @@
+Query: $!{solr.params.q}<br/>
+Found ${solr.response.numFound} documents in ${solr.header.QTime}ms
+<hr/>
+<div class="results">
+    #foreach($doc in $solr.response.docs)
+      #parse("hit.vel")
+    #end
+</div>
+
+<hr/>
+
+
+
+<img src="http://chart.apis.google.com/chart?chs=300x225&cht=bvg&chd=t:${solr.chart_data}&chdl=$solr.chart_labels"/>
+
+<table id="treemap-country">
+#foreach($kv in $solr.rsp.facet_counts.facet_fields.country.entrySet())
+  <tr>
+    <td>#if($kv.key)$kv.key#{else}&lt;Unspecified&gt;#{end}</td>
+    <td>$kv.value</td>
+    <td>#if($kv.key)$kv.key#{else}Unspecified#end</td>
+  </tr>
+#end
+</table>
+
+<hr/>
+$solr.raw_response
