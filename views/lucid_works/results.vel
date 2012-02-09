@@ -6,7 +6,7 @@
     <ul>
     #foreach($doc in $solr.response.docs)
 
-        <li>$doc.get('id')</li>
+        <li>$doc.get('id') [$doc.get('score')]</li>
 
     #end
     </ul>

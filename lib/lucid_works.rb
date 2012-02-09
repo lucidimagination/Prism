@@ -7,7 +7,7 @@ module Lucid
 
 
       # TODO:figure out the Right place for these environment configuration basics
-      SOLR_BASE_URL = 'http://localhost:8888/solr'
+      SOLR_BASE_URL = ENV['PRISM_SOLR_BASE_URL'] || 'http://localhost:8983/solr'
 
       # For now this is a simple way to compare/contrast the results from N (2 to start with) different /select requests
       # (including dynamic qt) to the same Solr core.  Request parameters (excepting _core_) will be used as the controls
@@ -17,14 +17,7 @@ module Lucid
         # get cores - /admin/cores?wt=ruby&indent=on
         http_response = solr_cores(SOLR_BASE_URL)
         solr_response = eval(http_response.body)
-        core = solr_response['status'][params[:core]]   # TODO:perhaps evolve to allowing various cores (at various base URLs) be selectable
-
-        #http_response = solr("#{SOLR_BASE_URL}/",'/lucid', solr_params)
-        #solr_response = eval(http_response.body)
-
-        #solr_params = params.merge(:wt => :ruby, :role => 'DEFAULT')
-        #http_response = solr("#{SOLR_BASE_URL}/collection1",'/lucid', solr_params)
-        #solr_response = eval(http_response.body)
+        core = solr_response['status'][params[:core] || '']   # TODO:perhaps evolve to allowing various cores (at various base URLs) be selectable
 
         solr_params = {}
         params.each {|key,value| solr_params[key] = value unless %w{splat captures core}.include?(key) }
@@ -53,9 +46,9 @@ module Lucid
            :layout => nil
       end
       
-      get '/timeline' do
-        [200, {'Content-Type' => "application/xml"}, '<data wiki-url="http://simile.mit.edu/shelf/" wiki-section="Simile Monet Timeline"><event start="Nov 14 2010 00:00:00 GMT" title="Birth" image="monet.png" link="http://en.wikipedia.org/wiki/Monet">Claude Monet</event></data>']
-      end
+      #get '/timeline' do
+      #  [200, {'Content-Type' => "application/xml"}, '<data wiki-url="http://simile.mit.edu/shelf/" wiki-section="Simile Monet Timeline"><event start="Nov 14 2010 00:00:00 GMT" title="Birth" image="monet.png" link="http://en.wikipedia.org/wiki/Monet">Claude Monet</event></data>']
+      #end
     end  
   end
 end

@@ -11,10 +11,10 @@ require 'lucid_works'
 module Lucid  
   module Prism
     class Main < Sinatra::Base
-      set :public, './public'
+      set :public_folder, './public'
       set :views, './views'
 
-      SOLR_BASE_URL = 'http://localhost:8888/solr' # TODO:unDRY alert:this is duplicated in lucid_works.rb - centralize.
+      SOLR_BASE_URL = ENV['PRISM_SOLR_BASE_URL'] || 'http://localhost:8983/solr' # TODO:unDRY alert:this is duplicated in lucid_works.rb - centralize.
       
       use Lucid::Prism::LucidWorks # TODO: inject this dynamically somehow rather than hardcoding - via Rack middleware config?
       # TODO:and how to automatically namespace-prefix these types of plugins?  e.g. /lucid/ + routes in Prism::LucidWorks

@@ -7,7 +7,7 @@
 
   <script type="text/javascript">
       function updateResults(tab) {
-          req = '/prism/${core.name}?template=results&'+$('#form-'+tab).serialize();
+          req = '/prism/$!{core.name}?template=results&'+$('#form-'+tab).serialize();
           $('#tab-'+tab+' .results').load(req);
       }
 
@@ -18,7 +18,7 @@
   </script>
 
   <body>
-    <h1>Juxtapose:$core.name</h1>
+    <h1>Juxtapose:$!core.name</h1>
 
     #foreach($tab in ['one','two'])
       <div id="tab-$tab">
