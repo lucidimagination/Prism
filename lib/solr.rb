@@ -2,23 +2,26 @@ require 'net/http'
 require 'net/https'
 require 'cgi'
 
+# TODO: should requests to Solr be wrapped in blocks/yields to allow auto/safe connection closing?
+
 def solr(url, handler, params={})
-  url = URI.parse(url)
-  connection = Net::HTTP.new(url.host, url.port)
-  connection.use_ssl = true if url.scheme == "https"
-  
-  connection.get(url.path + '/select?' + hash_to_query_string(params.merge(:qt => handler)))
+  connection, solr_url = connection(url)
+  req_url = solr_url.path + '/select?' + hash_to_query_string(params.merge(:qt => handler))
+  # puts "*** requesting to Solr: #{req_url}"
+  connection.get(req_url)
 end
 
 def solr_cores(url)
-  # TODO:remove duplication from above... via RSolr
+  connection, solr_url = connection(url)
+  connection.get(solr_url.path + '/admin/cores?wt=ruby')
+end
+
+def connection(url)
   url = URI.parse(url)
   connection = Net::HTTP.new(url.host, url.port)
   connection.use_ssl = true if url.scheme == "https"
-
-  connection.get(url.path + '/admin/cores?wt=ruby')
+  return connection, url
 end
-
 
 def hash_to_query_string(hash)
   hash.delete_if{|k,v| v==nil}.collect {|key,value|

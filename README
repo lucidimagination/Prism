@@ -36,6 +36,15 @@ Features Roadmap:
     - Query overlap Venn diagrams
     - sparklines (if we must, for the Tuftee's among you)
   * mobile interface - jQTouch?  PhoneGap?
+  
+  * interaction configurator:
+    - facet configurator:
+       - pick field (or eventually by range, query, and pivot too)
+       - tweak appropriate params (mincount, sort, etc)
+       - see live http query params (encoded/unencoded) and view of facets
+    - query configurator (relevancy workbenchy?)
+       - pick query parser, set parser-specific params
+       - peel off any number of tabs/windows set (by named configuration) to compare
     
 
 Configuration:

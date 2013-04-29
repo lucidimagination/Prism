@@ -8,6 +8,8 @@ module Lucid
 
       # TODO:figure out the Right place for these environment configuration basics
       SOLR_BASE_URL = ENV['PRISM_SOLR_BASE_URL'] || 'http://localhost:8983/solr'
+      
+      puts "**** #{SOLR_BASE_URL}"
 
       # For now this is a simple way to compare/contrast the results from N (2 to start with) different /select requests
       # (including dynamic qt) to the same Solr core.  Request parameters (excepting _core_) will be used as the controls
@@ -21,6 +23,8 @@ module Lucid
 
         solr_params = {}
         params.each {|key,value| solr_params[key] = value unless %w{splat captures core}.include?(key) }
+
+        puts ">>>>>>>>>> settings.views = #{settings.views}"
 
         velaro :juxtapose,
             # Velocity context parameters
@@ -36,12 +40,9 @@ module Lucid
              #  'params' => solr_params
              #}
            },
-
+           
            # Velocity engine parameters
-           :velocity => {
-             :'file.resource.loader.path' => "./views/lucid_works,./views/solr",
-             :'resource.loader' => "file"
-           },
+           :velocity => settings.velocity,
            
            :layout => nil
       end

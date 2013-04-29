@@ -1,0 +1,9 @@
+<img src="$doc['thumbnail_s']"/>
+<table>
+  #foreach($field_name in $doc.keySet())
+    <tr>
+      <td>$field_name</td>
+      <td>$doc[$field_name]</td>
+    </tr>
+  #end
+</table>

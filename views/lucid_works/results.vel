@@ -3,7 +3,30 @@
 <div class="results">
     $solr.response.numFound documents found
 
-    <ul>
+    $solr.debug.keySet()
+
+   <table>
+     <tr>
+         <td>rawquerystring</td><td>$!solr.debug.rawquerystring</td>
+     </tr>
+     <tr>
+         <td>querystring</td><td>$!solr.debug.querystring</td>
+     </tr>
+     <tr>
+         <td>altquerystring</td><td>$!solr.debug.altquerystring</td>
+     </tr>
+     <tr>
+         <td>QParser</td><td>$!solr.debug.QParser</td>
+     </tr>
+     <tr>
+         <td>parsedquery</td><td>$!solr.debug.parsedquery</td>
+     </tr>
+     <tr>
+         <td>parsedquery_toString</td><td>$!solr.debug.parsedquery_toString</td>
+     </tr>
+   </table>
+
+    <ul class="docs">
     #foreach($doc in $solr.response.docs)
 
         <li>$doc.get('id') [$doc.get('score')]</li>

@@ -5,18 +5,24 @@ require 'cgi'
 
 require 'solr'
 require 'velaro'
-require 'lucid_works'
-# require 'eurocon'
 
 module Lucid  
   module Prism
     class Main < Sinatra::Base
-      set :public_folder, './public'
-      set :views, './views'
+      
+      # TODO: gotta figure out what to do about using Sinatra's settings.views configuration somehow...
+      # TODO: but currently experimenting, since we're only using Velocity here for now, with fixing the Velocity(/Velaro) resource loader path custom below
+      set :public_folder, ENV['PRISM_PUBLIC'] #|| './public'
+      set :views, ENV['PRISM_VIEWS'] #|| './views'
+      
+      set :velocity, {
+         :'file.resource.loader.path' => ENV['PRISM_VELOCITY_FILE_RESOURCE_LOADER_PATH'] || './views/solr',
+         :'resource.loader' => 'file'
+       }
 
       SOLR_BASE_URL = ENV['PRISM_SOLR_BASE_URL'] || 'http://localhost:8983/solr' # TODO:unDRY alert:this is duplicated in lucid_works.rb - centralize.
       
-      use Lucid::Prism::LucidWorks # TODO: inject this dynamically somehow rather than hardcoding - via Rack middleware config?
+#      use Lucid::Prism::LucidWorks # TODO: inject this dynamically somehow rather than hardcoding - via Rack middleware config?
       # TODO:and how to automatically namespace-prefix these types of plugins?  e.g. /lucid/ + routes in Prism::LucidWorks
 
       # Solr direct pass-thru; response code, headers including content-type, and Solr response body all included
@@ -46,7 +52,8 @@ module Lucid
               # TODO: string keys required for now, but symbols should be made to work
               'response' => solr_response['response'], 
               'header' => solr_response['responseHeader'], 
-              'raw_response' => http_response.body, 
+              'raw_response' => http_response.body,
+              'debug' => solr_response['debug'] || {},
               'url' => solr_url,
               'params' => solr_params,
             },
@@ -54,22 +61,14 @@ module Lucid
           },
 
           # Velocity engine parameters
-          :velocity => {
-            # TODO:fix situation with this template_path (and generalized issue),
-            # TODO:of making "plugin" be able to load in a "prism" with this kind of thing specified
-            :'file.resource.loader.path' => "./views/lucid_works,./views/solr",
-            :'resource.loader' => "file"
-          }
+          :velocity => settings.velocity
       end
       
       post '/update' do
         "not supported"
-        # TODO: process multiparts, case them into /update, /update/csv, /update/extract, etc
+        # TODO: process multiparts
       end
     end
   end
 end
-
-# TODO: launch Prism outside of here
-Lucid::Prism::Main.run!
 

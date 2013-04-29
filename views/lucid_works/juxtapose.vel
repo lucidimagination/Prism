@@ -6,8 +6,8 @@
   <script type="text/javascript" src="/jquery-1.4.3.min.js"></script>
 
   <script type="text/javascript">
-      function updateResults(tab) {
-          req = '/prism/$!{core.name}?template=results&'+$('#form-'+tab).serialize();
+      function updateResults(tab,params) {
+          req = '/prism/$!{core.name}?template=results&debug=true&fl=id,score&'+$('#form-'+tab).serialize();
           $('#tab-'+tab+' .results').load(req);
       }
 
@@ -19,6 +19,23 @@
 
   <body>
     <h1>Juxtapose:$!core.name</h1>
+    <hr/>
+    <!-- TODO: render these core details somehow elegantly -->
+    <ul>
+    #foreach($key in $core.keys())
+        <li>$key:${core.get($key)}</li>
+    #end
+    </ul>
+   <hr/>
+
+
+    <!-- TODO:
+           * have paging controls sync'd (or not)
+           * color code docs that appear in both views (id1 in 1st spot on left, 5th spot on right, e.g. same color background)
+           * warp one from one document to same document in other view(s) -
+               - first step could be simply to explainOther and pop the explain query and score/explanations.
+           *
+    -->
 
     #foreach($tab in ['one','two'])
       <div id="tab-$tab">
@@ -37,12 +54,6 @@
     #end
 
     <hr/>
-    <!-- TODO: render these core details somehow elegantly -->
-    <ul>
-    #foreach($key in $core.keys())
-        <li>$key:${core.get($key)}</li>
-    #end
-    </ul>
   </body>
 </html>
 
